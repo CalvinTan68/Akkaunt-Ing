@@ -7,11 +7,16 @@ import {
     Table,
     Popover,
     message,
+    Button,
+    Select,
+    InputNumber,
+    DatePicker,
 } from "antd";
 import {
     PlusOutlined,
     CalculatorOutlined,
     DeleteOutlined,
+    DownloadOutlined,
 } from "@ant-design/icons";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from "@inertiajs/inertia-react";
@@ -19,61 +24,38 @@ import CurrencyFormat from "react-currency-format";
 import { Inertia } from "@inertiajs/inertia";
 import "./style.css";
 import NProgress from "nprogress";
+import moment from "moment";
 
 export default function Accounting(props) {
+    const data = props.accounting;
+    const auditNames = [
+        "Assets",
+        "Cash",
+        "Debits",
+        "Expenses",
+        "Incomes",
+        "Returns - Purchase",
+        "Returns - Sales",
+        "Supplies",
+        "Tax",
+    ].map((name) => ({ text: name, value: name, label: name }));
+
     const columns = [
         {
             align: "center",
             title: "Date",
             width: "max-content",
-            dataIndex: "date",
-            key: "date",
+            dataIndex: "Date",
+            key: "Date",
             fixed: "left",
         },
         {
             align: "center",
             title: "Name",
             width: "max-content",
-            dataIndex: "name",
-            key: "name",
-            filters: [
-                {
-                    text: "Assets",
-                    value: "Assets",
-                },
-                {
-                    text: "Cash",
-                    value: "Cash",
-                },
-                {
-                    text: "Debits",
-                    value: "Debits",
-                },
-                {
-                    text: "Expenses",
-                    value: "Expenses",
-                },
-                {
-                    text: "Incomes",
-                    value: "Incomes",
-                },
-                {
-                    text: "Returns - Purchase",
-                    value: "Returns - Purchase",
-                },
-                {
-                    text: "Returns - Sales",
-                    value: "Returns - Sales",
-                },
-                {
-                    text: "Supplies",
-                    value: "Supplies",
-                },
-                {
-                    text: "Tax",
-                    value: "Tax",
-                },
-            ],
+            dataIndex: "Name",
+            key: "Name",
+            filters: [...auditNames],
             filterMode: "menu",
             filterSearch: true,
             onFilter: (value, record) => record.name.includes(value),
@@ -82,31 +64,66 @@ export default function Accounting(props) {
             align: "center",
             title: "Debit",
             width: "max-content",
-            dataIndex: "debit",
-            key: "debit",
+            dataIndex: "Debit",
+            key: "Debit",
             className: "debit",
+            render: (text, record) => (
+                <CurrencyFormat
+                    value={record.Debit}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"IDR "}
+                />
+            ),
         },
         {
             align: "center",
             title: "Credit",
             width: "max-content",
-            dataIndex: "credit",
-            key: "credit",
+            dataIndex: "Credit",
+            key: "Credit",
             className: "credit",
+            render: (text, record) => (
+                <CurrencyFormat
+                    value={record.Credit}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"IDR "}
+                />
+            ),
         },
         {
             align: "center",
             title: "Notes",
             width: "max-content",
-            dataIndex: "notes",
-            key: "notes",
+            dataIndex: "Notes",
+            key: "Notes",
         },
         {
             align: "center",
-            title: "",
+            title: "Action",
             width: "max-content",
-            dataIndex: "action",
-            key: "action",
+            dataIndex: "Action",
+            key: "Action",
+            render: (text, record) => (
+                <Popconfirm
+                    title="Delete the data"
+                    description="Are you sure to delete this data?"
+                    okText="Yes"
+                    okButtonProps={{ danger: true }}
+                    cancelText="No"
+                    onConfirm={() => {
+                        handleDelete(record.id);
+                    }}
+                    onCancel={() => setDeleteData(null)}
+                >
+                    <Button
+                        onClick={() => setDeleteData(record.id)}
+                        icon={<DeleteOutlined />}
+                        className="btn btn-error btn-sm text-white bg-red-500 hover:bg-red-700 border-0 button"
+                    />
+                </Popconfirm>
+            ),
         },
     ];
 
@@ -124,9 +141,9 @@ export default function Accounting(props) {
     const [modalCalculator, setModalCalculator] = useState(false);
     const handleClose = (e) => {
         setModalCalculator(false);
-        setCountName("");
+        setCountName("Choose Options");
         setValue("");
-        setPercentage("");
+        setPercentage("Percentages");
     };
 
     const [width, setWidth] = useState(window.innerWidth);
@@ -139,13 +156,13 @@ export default function Accounting(props) {
     }, []);
 
     const [Date, setDate] = useState("");
-    const [Name, setName] = useState("");
+    const [Name, setName] = useState("Assets");
     const [Debit, setDebit] = useState("");
     const [Credit, setCredit] = useState("");
     const [Notes, setNotes] = useState("");
 
-    const [countName, setCountName] = useState("");
-    const [percentage, setPercentage] = useState("");
+    const [countName, setCountName] = useState("Choose Options");
+    const [percentage, setPercentage] = useState("Percentages");
     const [value, setValue] = useState("");
     const calculatePPN = (percentage, value) => {
         return (
@@ -163,11 +180,11 @@ export default function Accounting(props) {
     const [notification, setNotification] = useState(false);
 
     const clearData = () => {
-        setCountName("");
+        setCountName("Choose Options");
         setValue("");
-        setPercentage("");
+        setPercentage("Percentages");
         setDate("");
-        setName("");
+        setName("Assets");
         setDebit("");
         setCredit("");
         setNotes("");
@@ -204,95 +221,51 @@ export default function Accounting(props) {
             }, 3500);
         });
     };
-
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Accounting" />
 
             <div className="py-5">
                 <div className="max-w-7xl mx-auto px-4 lg:px-10">
-                    <div className="flex justify-between">
-                        {width >= 768 ? (
-                            <label
-                                onClick={() => setModalCalculator(true)}
-                                className="btn btn-sm btn-outline bg-orange-300 border hover:bg-orange-700"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    class="bi bi-calculator"
-                                    viewBox="0 0 16 16"
+                    {width >= 768 ? (
+                        <>
+                            <div className="flex justify-between">
+                                <Button
+                                    onClick={() => setModalCalculator(true)}
+                                    icon={<CalculatorOutlined />}
+                                    className="bg-orange-300 hover:bg-orange-700 border btn-outline uppercase"
                                 >
-                                    <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z" />
-                                </svg>
-                                &nbsp; Count
-                            </label>
-                        ) : (
-                            ""
-                        )}
-                        {width >= 768 ? (
-                            <Popover
-                                content={
-                                    <div>
-                                        <p>Download current year data</p>
-                                    </div>
-                                }
-                            >
-                                <label
-                                    onClick={() =>
-                                        (window.location.href =
-                                            route("download_data"))
+                                    Count
+                                </Button>
+                                <Popover
+                                    content={
+                                        <div>
+                                            <p>Download current year data</p>
+                                        </div>
                                     }
-                                    className="btn btn-sm btn-outline bg-red-300 border hover:bg-red-700"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        class="bi bi-download"
-                                        viewBox="0 0 16 16"
+                                    <Button
+                                        onClick={() =>
+                                            (window.location.href =
+                                                route("download_data"))
+                                        }
+                                        icon={<DownloadOutlined />}
+                                        className="bg-red-300 hover:bg-red-700 border btn-outline uppercase"
                                     >
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                    </svg>
-                                    &nbsp; Download
-                                </label>
-                            </Popover>
-                        ) : (
-                            ""
-                        )}
-                        {width >= 768 ? (
-                            <label
-                                onClick={() => setModalAdd(true)}
-                                className="btn btn-sm btn-outline bg-emerald-400 border hover:bg-emerald-700"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    class="bi bi-plus-lg"
-                                    viewBox="0 0 16 16"
+                                        Download
+                                    </Button>
+                                </Popover>
+                                <Button
+                                    onClick={() => setModalAdd(true)}
+                                    icon={<PlusOutlined />}
+                                    className="btn-outline bg-emerald-400 hover:bg-emerald-700 border uppercase"
                                 >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
-                                    />
-                                </svg>
-                                &nbsp; Add
-                            </label>
-                        ) : (
-                            ""
-                        )}
-                    </div>
-                    {width < 768 ? (
-                        <h1 className="text-2xl font-semibold">Accounting</h1>
+                                    Add
+                                </Button>
+                            </div>
+                        </>
                     ) : (
-                        ""
+                        <h1 className="text-2xl font-semibold">Accounting</h1>
                     )}
 
                     <div className="overflow-x-auto pt-5">
@@ -307,54 +280,7 @@ export default function Accounting(props) {
                                 x: "max-content",
                             }}
                             columns={columns}
-                            dataSource={props.accounting.map((data) => ({
-                                key: data.id,
-                                date: data.Date,
-                                name: data.Name,
-                                debit: (
-                                    <CurrencyFormat
-                                        value={data.Debit}
-                                        displayType={"text"}
-                                        thousandSeparator={true}
-                                        prefix={"IDR "}
-                                    />
-                                ),
-                                credit: (
-                                    <CurrencyFormat
-                                        value={data.Credit}
-                                        displayType={"text"}
-                                        thousandSeparator={true}
-                                        prefix={"IDR "}
-                                    />
-                                ),
-                                notes: data.Notes,
-                                action: (
-                                    <Popconfirm
-                                        title="Delete the data"
-                                        description="Are you sure to delete this data?"
-                                        okText="Yes"
-                                        okButtonProps={{ danger: true }}
-                                        cancelText="No"
-                                        onConfirm={() => {
-                                            handleDelete(data.id);
-                                            showNotif();
-                                            setTimeout(() => {
-                                                setNotification(false);
-                                            }, 3500);
-                                        }}
-                                        onCancel={() => setDeleteData(null)}
-                                    >
-                                        <button
-                                            className="btn btn-error btn-sm text-white bg-red-500 hover:bg-red-700 border-0"
-                                            onClick={() =>
-                                                setDeleteData(data.id)
-                                            }
-                                        >
-                                            <DeleteOutlined />
-                                        </button>
-                                    </Popconfirm>
-                                ),
-                            }))}
+                            dataSource={data}
                         />
                     </div>
                 </div>
@@ -395,21 +321,28 @@ export default function Accounting(props) {
                         What do you want to count?
                     </span>
                 </label>
-                <select
-                    className="select select-bordered w-full"
-                    onChange={(countName) => {
-                        setCountName(countName.target.value);
+                <Select
+                    className="w-full"
+                    size="large"
+                    onChange={(selectedValue) => {
+                        setCountName(selectedValue);
                         setValue("");
-                        setPercentage("");
+                        setPercentage("Percentages");
                     }}
                     value={countName}
-                >
-                    <option selected>Choose options</option>
-                    <option>Discount</option>
-                    <option>Value Added Tax (PPN)</option>
-                </select>
+                    options={[
+                        {
+                            value: "discount",
+                            label: "Discount",
+                        },
+                        {
+                            value: "ppn",
+                            label: "Value Added Tax (PPN)",
+                        },
+                    ]}
+                />
 
-                {countName == "Value Added Tax (PPN)" ? (
+                {countName == "ppn" ? (
                     <>
                         <div className="grid grid-cols-2 gap-1">
                             <div>
@@ -418,17 +351,24 @@ export default function Accounting(props) {
                                         Percentage
                                     </span>
                                 </label>
-                                <select
-                                    className="select select-bordered w-full"
-                                    onChange={(e) =>
-                                        setPercentage(e.target.value)
+                                <Select
+                                    className="w-full"
+                                    size="large"
+                                    onChange={(selectedValue) =>
+                                        setPercentage(selectedValue)
                                     }
                                     value={percentage}
-                                >
-                                    <option selected>Select Percentage</option>
-                                    <option value={"10"}>10%</option>
-                                    <option value={"11"}>11%</option>
-                                </select>
+                                    options={[
+                                        {
+                                            value: "10",
+                                            label: "10%",
+                                        },
+                                        {
+                                            value: "11",
+                                            label: "11%",
+                                        },
+                                    ]}
+                                />
                             </div>
 
                             <div>
@@ -462,7 +402,7 @@ export default function Accounting(props) {
                 ) : (
                     ""
                 )}
-                {countName == "Discount" ? (
+                {countName == "discount" ? (
                     <>
                         <div className="grid grid-cols-2 gap-1">
                             <div>
@@ -522,11 +462,25 @@ export default function Accounting(props) {
             <Modal
                 title="Add Accounting"
                 centered
+                okText={"ADD"}
+                cancelText={"CANCEL"}
                 open={modalAdd}
                 onOk={handleAdd}
                 onCancel={handleCancel}
-                okButtonProps={{ style: { display: "none" } }}
-                cancelButtonProps={{ style: { display: "none" } }}
+                cancelButtonProps={{
+                    className:
+                        "bg-red-600 hover:bg-red-800 border-0 button text-white",
+                }}
+                okButtonProps={{
+                    className:
+                        Date !== "" &&
+                        Name !== "" &&
+                        Debit > "-1" &&
+                        Credit > "-1" &&
+                        Notes !== ""
+                            ? "bg-emerald-400 border-0 hover:bg-emerald-700 button button-ok"
+                            : "btn-disabled border-0 button",
+                }}
             >
                 <form>
                     <div className="grid grid-cols-2 gap-1">
@@ -534,117 +488,91 @@ export default function Accounting(props) {
                             <label className="label">
                                 <span className="label-text">Audit Date</span>
                             </label>
-                            <input
-                                type="date"
-                                placeholder="Audit Date"
-                                className="input input-bordered w-full"
-                                min={"2010-01-01"}
-                                max={"2030-12-31"}
-                                onChange={(Date) => setDate(Date.target.value)}
-                                value={Date}
+                            <DatePicker
+                                onChange={(date, dateString) =>
+                                    setDate(
+                                        moment(dateString).format("YYYY-MM-DD")
+                                    )
+                                }
+                                size="large"
+                                className="w-full"
+                                placeholder="Select audit date"
                             />
                         </div>
                         <div>
                             <label className="label">
                                 <span className="label-text">Audit Name</span>
                             </label>
-                            <select
-                                className="select select-bordered w-full"
-                                onChange={(Name) => setName(Name.target.value)}
+                            <Select
+                                className="w-full"
+                                size="large"
+                                onChange={(selectedValue) =>
+                                    setName(selectedValue)
+                                }
                                 value={Name}
-                            >
-                                <option selected>Select Audit Name</option>
-                                <option>Assets</option>
-                                <option>Cash</option>
-                                <option>Debits</option>
-                                <option>Expenses</option>
-                                <option>Incomes</option>
-                                <option>Returns - Purchase</option>
-                                <option>Returns - Sales</option>
-                                <option>Supplies</option>
-                                <option>Tax</option>
-                            </select>
+                                defaultValue="Assets"
+                                options={auditNames}
+                            />
                         </div>
                         <div>
                             <label className="label">
                                 <span className="label-text">Debit Value</span>
                             </label>
-                            <CurrencyFormat
-                                thousandSeparator={true}
-                                className="input input-bordered w-full"
-                                onChange={(Debit) =>
-                                    setDebit(
-                                        parseFloat(
-                                            Debit.target.value
-                                                .replace("IDR ", "")
-                                                .replace(/,/g, "")
-                                        )
+                            <InputNumber
+                                className="w-full"
+                                placeholder="Enter debit value"
+                                size="large"
+                                value={Debit}
+                                formatter={(value) =>
+                                    `IDR ${value}`.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
                                     )
                                 }
-                                value={Debit}
-                                min="0"
-                                placeholder="Enter debit value"
-                                prefix="IDR "
+                                parser={(value) =>
+                                    value.replace(/IDR\s?|(,*)/g, "")
+                                }
+                                onChange={(value) =>
+                                    setDebit(parseFloat(value))
+                                }
                             />
                         </div>
                         <div>
                             <label className="label">
                                 <span className="label-text">Credit Value</span>
                             </label>
-                            <CurrencyFormat
-                                thousandSeparator={true}
-                                className="input input-bordered w-full"
-                                onChange={(Credit) =>
-                                    setCredit(
-                                        parseFloat(
-                                            Credit.target.value
-                                                .replace("IDR ", "")
-                                                .replace(/,/g, "")
-                                        )
+                            <InputNumber
+                                className="w-full"
+                                placeholder="Enter debit value"
+                                size="large"
+                                value={Credit}
+                                formatter={(value) =>
+                                    `IDR ${value}`.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
                                     )
                                 }
-                                value={Credit}
-                                min="0"
-                                placeholder="Enter credit value"
-                                prefix="IDR "
+                                parser={(value) =>
+                                    value.replace(/IDR\s?|(,*)/g, "")
+                                }
+                                onChange={(value) =>
+                                    setCredit(parseFloat(value))
+                                }
                             />
                         </div>
                     </div>
                     <label className="label">
                         <span className="label-text">Notes</span>
                     </label>
-                    <Input
+                    <Input.TextArea
                         placeholder="Detail (Keep it short but detailed"
-                        className="input input-bordered w-full"
+                        className="w-full"
                         onChange={(Notes) => setNotes(Notes.target.value)}
                         value={Notes}
+                        size="large"
+                        rows={2}
+                        autoSize={false}
                     />
-                    <div className="modal-action">
-                        <label
-                            className="btn btn-sm bg-red-600 hover:bg-red-800 border-0"
-                            onClick={() => {
-                                handleCancel();
-                            }}
-                        >
-                            Cancel
-                        </label>
-                        <label
-                            className={
-                                Date > "" &&
-                                Name > "" &&
-                                Debit > "-1" &&
-                                Credit > "-1" &&
-                                Notes > ""
-                                    ? "btn btn-sm bg-emerald-400 border-0 hover:bg-emerald-700"
-                                    : "btn btn-sm btn-disabled border-0"
-                            }
-                            onClick={() => {
-                                handleAdd();
-                            }}
-                        >
-                            Add
-                        </label>
-                    </div>
                 </form>
             </Modal>
         </Authenticated>

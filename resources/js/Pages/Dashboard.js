@@ -98,13 +98,7 @@ export default function Dashboard(props) {
             <div className="py-5">
                 <div className="max-w-7xl mx-auto px-4 lg:px-10">
                     <div className="mb-4">
-                        <h1
-                            className={
-                                width >= 768
-                                    ? "text-2xl font-semibold"
-                                    : "text-xl font-semibold"
-                            }
-                        >
+                        <h1 className="text-2xl font-semibold">
                             {greetings >= 6 && greetings <= 10
                                 ? "Good Morning"
                                 : greetings > 10 && greetings <= 14

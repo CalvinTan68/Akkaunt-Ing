@@ -1,4 +1,7 @@
-table, td, th, tr {
+table,
+td,
+th,
+tr {
     text-align: center;
 }
 .debit {
@@ -18,14 +21,14 @@ table, td, th, tr {
 .slick-slide {
     padding: 0 10px;
 }
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
     -moz-appearance: none;
-  appearance: none;
-  margin: 0;
+    appearance: none;
+    margin: 0;
 }
-input[type=number] {
+input[type="number"] {
     appearance: textfield;
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
@@ -42,8 +45,29 @@ input[type=number] {
 }
 .ant-carousel .slick-dots li button {
     background: lightgrey !important;
-  }
-  .ant-carousel .slick-dots li .slick-active button {
+}
+.ant-carousel .slick-dots li .slick-active button {
     background: red !important;
     opacity: 1 !important;
-  }
+}
+
+.btn-outline:hover {
+    border: solid 1px black !important;
+    color: white !important;
+}
+
+.button:hover {
+    color: white !important;
+}
+
+textarea {
+    resize: none !important;
+}
+
+.button-ok:hover {
+    background-color: rgb(4 120 87) !important;
+}
+
+.ant-input-number-handler-wrap {
+    display: none !important;
+}
