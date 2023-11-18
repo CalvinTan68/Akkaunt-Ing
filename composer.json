@@ -2,27 +2,30 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0|^8.2",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "inertiajs/inertia-laravel": "^0.5.4",
-        "laravel/breeze": "1.9.2",
-        "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.8",
-        "laravel/tinker": "^2.5",
-        "maatwebsite/excel": "^3.1",
-        "tightenco/ziggy": "^1.0"
+        "guzzlehttp/guzzle": "^7.8.0",
+        "inertiajs/inertia-laravel": "^0.6.11",
+        "laravel/breeze": "1.19.2",
+        "laravel/framework": "^9.52.16",
+        "laravel/sanctum": "^3.3.2",
+        "laravel/tinker": "^2.8.2",
+        "maatwebsite/excel": "^3.1.50",
+        "tightenco/ziggy": "^1.8.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "spatie/laravel-ignition": "^1.6.4",
+        "fakerphp/faker": "^1.23.0",
+        "laravel/sail": "^1.26.0",
+        "mockery/mockery": "^1.6.6",
+        "nunomaduro/collision": "^7.10",
+        "phpunit/phpunit": "^10.4.2"
     },
     "autoload": {
         "psr-4": {
@@ -61,6 +64,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
