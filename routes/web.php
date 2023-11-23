@@ -45,4 +45,8 @@ Route::get('/history', [CRUDHistoryController::class, 'index'])
 Route::get('/download_data', [AccountingController::class, 'download_data'])
 ->middleware(['auth', 'verified'])->name('download_data');
 
+Route::fallback(function() {
+    return redirect("/");
+});
+
 require __DIR__.'/auth.php';

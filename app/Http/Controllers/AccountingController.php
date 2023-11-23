@@ -129,7 +129,7 @@ class AccountingController extends Controller
     }
 
     public function download_data() {
-        return Excel::download(new DownloadController, 'dataexports.xls', \Maatwebsite\Excel\Excel::XLS);
+        return Excel::download(new DownloadController, 'dataexports.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
     
 

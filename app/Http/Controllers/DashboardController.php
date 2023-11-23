@@ -20,6 +20,8 @@ class DashboardController extends Controller
         $user = auth()->user()->id;
         $currentyear = date('Y');
 
+        $recentdata = Accounting::where('User', $user)->orderBy('Date', 'desc')->take(10)->get();
+
         $accountingtotaldebit = Accounting::select(['Debit'])->where('User', $user)->sum('Debit');
         $accountingtotalcredit = Accounting::select(['Credit'])->where('User', $user)->sum('Credit');
 
@@ -46,6 +48,7 @@ class DashboardController extends Controller
             'accountingthisyearcredit' => $accountingthisyearcredit,
             'accountingthisyearincome' => $accountingthisyearincome,
             'accountingthisyearexpense' => $accountingthisyearexpense,
+            'recentdata' => $recentdata,
         ]);
     }
     /**
