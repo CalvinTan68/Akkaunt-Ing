@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Input,
     Modal,
-    FloatButton,
     Popconfirm,
     Table,
-    Popover,
-    message,
+    Tooltip,
     Button,
     Select,
     InputNumber,
     DatePicker,
+    Typography,
+    Flex,
+    Row,
+    Col,
+    Form,
 } from "antd";
 import {
     PlusOutlined,
@@ -19,15 +22,26 @@ import {
     DownloadOutlined,
 } from "@ant-design/icons";
 import Authenticated from "@/Layouts/Authenticated";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/inertia-react";
 import CurrencyFormat from "react-currency-format";
 import { Inertia } from "@inertiajs/inertia";
-import "./style.css";
-import NProgress from "nprogress";
 import moment from "moment";
 
 export default function Accounting(props) {
-    const data = props.accounting;
+    const [form] = Form.useForm();
+
+    const [modalAdd, setModalAdd] = useState(false);
+    const [modalCalculator, setModalCalculator] = useState(false);
+    const [deleteData, setDeleteData] = useState(null);
+    const [Date, setDate] = useState("");
+    const [Name, setName] = useState("");
+    const [Debit, setDebit] = useState("");
+    const [Credit, setCredit] = useState("");
+    const [Notes, setNotes] = useState("");
+    const [countName, setCountName] = useState("");
+    const [percentage, setPercentage] = useState("");
+    const [value, setValue] = useState("");
+
     const auditNames = [
         "Assets",
         "Cash",
@@ -45,16 +59,16 @@ export default function Accounting(props) {
             align: "center",
             title: "Date",
             width: "max-content",
-            dataIndex: "Date",
-            key: "Date",
+            dataIndex: "date",
+            key: "date",
             fixed: "left",
         },
         {
             align: "center",
             title: "Name",
             width: "max-content",
-            dataIndex: "Name",
-            key: "Name",
+            dataIndex: "name",
+            key: "name",
             filters: [...auditNames],
             filterMode: "menu",
             filterSearch: true,
@@ -64,131 +78,155 @@ export default function Accounting(props) {
             align: "center",
             title: "Debit",
             width: "max-content",
-            dataIndex: "Debit",
-            key: "Debit",
+            dataIndex: "debit",
+            key: "debit",
             className: "debit",
-            render: (text, record) => (
-                <CurrencyFormat
-                    value={record.Debit}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"IDR "}
-                />
-            ),
         },
         {
             align: "center",
             title: "Credit",
             width: "max-content",
-            dataIndex: "Credit",
-            key: "Credit",
+            dataIndex: "credit",
+            key: "credit",
             className: "credit",
-            render: (text, record) => (
-                <CurrencyFormat
-                    value={record.Credit}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"IDR "}
-                />
-            ),
         },
         {
             align: "center",
             title: "Notes",
             width: "max-content",
-            dataIndex: "Notes",
-            key: "Notes",
+            dataIndex: "notes",
+            key: "notes",
         },
         {
             align: "center",
             title: "Action",
             width: "max-content",
-            dataIndex: "Action",
-            key: "Action",
-            render: (text, record) => (
-                <Popconfirm
-                    title="Delete the data"
-                    description="Are you sure to delete this data?"
-                    okText="Yes"
-                    okButtonProps={{ danger: true }}
-                    cancelText="No"
-                    onConfirm={() => {
-                        handleDelete(record.id);
-                    }}
-                    onCancel={() => setDeleteData(null)}
-                >
-                    <Button
-                        onClick={() => setDeleteData(record.id)}
-                        icon={<DeleteOutlined />}
-                        className="btn btn-error btn-sm text-white bg-red-500 hover:bg-red-700 border-0 button"
-                    />
-                </Popconfirm>
-            ),
+            dataIndex: "action",
+            key: "action",
         },
     ];
+    //     {
+    //         align: "center",
+    //         title: "Date",
+    //         width: "max-content",
+    //         dataIndex: "Date",
+    //         key: "Date",
+    //         fixed: "left",
+    //     },
+    //     {
+    //         align: "center",
+    //         title: "Name",
+    //         width: "max-content",
+    //         dataIndex: "Name",
+    //         key: "Name",
+    //         filters: [...auditNames],
+    //         filterMode: "menu",
+    //         filterSearch: true,
+    //         onFilter: (value, record) => record.name.includes(value),
+    //     },
+    //     {
+    //         align: "center",
+    //         title: "Debit",
+    //         width: "max-content",
+    //         dataIndex: "Debit",
+    //         key: "Debit",
+    //         className: "debit",
+    //         render: (text, record) => (
+    //             <CurrencyFormat
+    //                 value={record.Debit}
+    //                 displayType={"text"}
+    //                 thousandSeparator={true}
+    //                 prefix={"IDR "}
+    //             />
+    //         ),
+    //     },
+    //     {
+    //         align: "center",
+    //         title: "Credit",
+    //         width: "max-content",
+    //         dataIndex: "Credit",
+    //         key: "Credit",
+    //         className: "credit",
+    //         render: (text, record) => (
+    //             <CurrencyFormat
+    //                 value={record.Credit}
+    //                 displayType={"text"}
+    //                 thousandSeparator={true}
+    //                 prefix={"IDR "}
+    //             />
+    //         ),
+    //     },
+    //     {
+    //         align: "center",
+    //         title: "Notes",
+    //         width: "max-content",
+    //         dataIndex: "Notes",
+    //         key: "Notes",
+    //     },
+    //     {
+    //         align: "center",
+    //         title: "Action",
+    //         width: "max-content",
+    //         dataIndex: "Action",
+    //         key: "Action",
+    //         render: (text, record) => (
+    //             <Popconfirm
+    //                 title="Delete the data"
+    //                 description="Are you sure to delete this data?"
+    //                 okText="Yes"
+    //                 okButtonProps={{ danger: true }}
+    //                 cancelText="No"
+    //                 onConfirm={() => {
+    //                     handleDelete(record.id);
+    //                 }}
+    //                 onCancel={() => setDeleteData(null)}
+    //             >
+    //                 <Button
+    //                     onClick={() => setDeleteData(record.id)}
+    //                     icon={<DeleteOutlined />}
+    //                     danger
+    //                     type="primary"
+    //                     shape="circle"
+    //                 />
+    //             </Popconfirm>
+    //         ),
+    //     },
+    // ];
 
-    const [modalAdd, setModalAdd] = useState(false);
+    const clearData = () => {
+        setCountName("");
+        setValue("");
+        setPercentage("");
+        setDate("");
+        setName("");
+        setDebit("");
+        setCredit("");
+        setNotes("");
+    };
+
     const handleAdd = (e) => {
         setModalAdd(false);
-        clearData();
         handleSubmit();
+        form.resetFields();
+        clearData();
     };
     const handleCancel = (e) => {
         setModalAdd(false);
+        form.resetFields();
         clearData();
     };
 
-    const [modalCalculator, setModalCalculator] = useState(false);
     const handleClose = (e) => {
         setModalCalculator(false);
-        setCountName("Choose Options");
-        setValue("");
-        setPercentage("");
+        form.resetFields();
+        clearData();
     };
-
-    const [width, setWidth] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
-
-    const [Date, setDate] = useState("");
-    const [Name, setName] = useState("Assets");
-    const [Debit, setDebit] = useState("");
-    const [Credit, setCredit] = useState("");
-    const [Notes, setNotes] = useState("");
-
-    const [countName, setCountName] = useState("Choose Options");
-    const [percentage, setPercentage] = useState("");
-    const [value, setValue] = useState("");
 
     const calculatePPN = (percentage, value) => {
         return value * (1 + percentage / 100);
     };
     const calculateDiscount = (percentage, value) => {
         return value * (1 - percentage / 100);
-    };
-
-    const [notification, setNotification] = useState(false);
-
-    const clearData = () => {
-        setCountName("Choose Options");
-        setValue("");
-        setPercentage("");
-        setDate("");
-        setName("Assets");
-        setDebit("");
-        setCredit("");
-        setNotes("");
-    };
-    const showNotif = () => {
-        Inertia.on("finish", () => {
-            setNotification(true);
-            NProgress.done();
-        });
     };
     const handleSubmit = () => {
         const data = {
@@ -199,205 +237,198 @@ export default function Accounting(props) {
             Credit,
             Notes,
         };
-        showNotif();
-        setTimeout(() => {
-            setNotification(false);
-        }, 3500);
         Inertia.post("/new", data);
+        clearData();
     };
-
-    const [deleteData, setDeleteData] = useState(null);
 
     const handleDelete = (id) => {
-        Inertia.post("/delete", { id }).then(() => {
-            showNotif();
-            setTimeout(() => {
-                setNotification(false);
-            }, 3500);
-        });
+        Inertia.post("/delete", { id });
+        clearData();
     };
+
     return (
         <>
             <Authenticated auth={props.auth} errors={props.errors}>
                 <Head title="Accounting" />
 
-                <div className="py-5">
-                    <div className="max-w-7xl mx-auto px-4 lg:px-10">
-                        {width >= 768 ? (
-                            <>
-                                <div className="flex justify-between">
-                                    <Button
-                                        onClick={() => setModalCalculator(true)}
-                                        icon={<CalculatorOutlined />}
-                                        className="bg-orange-300 hover:bg-orange-700 border btn-outline uppercase"
-                                    >
-                                        Count
-                                    </Button>
-                                    <Popover
-                                        content={
-                                            <div>
-                                                <p>
-                                                    Download current year data
-                                                </p>
-                                            </div>
-                                        }
-                                    >
-                                        <Button
-                                            onClick={() =>
-                                                (window.location.href =
-                                                    route("download_data"))
-                                            }
-                                            icon={<DownloadOutlined />}
-                                            className="bg-red-300 hover:bg-red-700 border btn-outline uppercase"
-                                        >
-                                            Download
-                                        </Button>
-                                    </Popover>
-                                    <Button
-                                        onClick={() => setModalAdd(true)}
-                                        icon={<PlusOutlined />}
-                                        className="btn-outline bg-emerald-400 hover:bg-emerald-700 border uppercase"
-                                    >
-                                        Add
-                                    </Button>
-                                </div>
-                            </>
-                        ) : (
-                            <h1 className="text-2xl font-semibold">
-                                Accounting
-                            </h1>
-                        )}
+                <Typography.Title level={2}>Accountings</Typography.Title>
 
-                        <div className="overflow-x-auto pt-5">
-                            <Table
-                                size="small"
-                                pagination={{
-                                    pageSize: 10,
-                                    position: ["bottomCenter"],
-                                    showSizeChanger: false,
-                                }}
-                                scroll={{
-                                    x: "max-content",
-                                }}
-                                columns={columns}
-                                dataSource={data}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {width < 768 ? (
-                    <FloatButton.Group
-                        shape="circle"
-                        style={{
-                            right: 24,
-                        }}
+                <Flex
+                    justify="space-between"
+                    align="center"
+                    style={{ marginBottom: "1em" }}
+                >
+                    <Button
+                        onClick={() => setModalCalculator(true)}
+                        icon={<CalculatorOutlined />}
+                        type="primary"
                     >
-                        <FloatButton
-                            icon={<CalculatorOutlined />}
-                            onClick={() => setModalCalculator(true)}
-                        />
-                        <FloatButton
-                            icon={<PlusOutlined />}
-                            onClick={() => setModalAdd(true)}
-                        />
-                    </FloatButton.Group>
-                ) : (
-                    ""
-                )}
+                        COUNT
+                    </Button>
+                    <Tooltip title="Download current year data">
+                        <Button
+                            onClick={() =>
+                                (window.location.href = route("download_data"))
+                            }
+                            icon={<DownloadOutlined />}
+                            type="primary"
+                        >
+                            DOWNLOAD
+                        </Button>
+                    </Tooltip>
+                    <Button
+                        onClick={() => setModalAdd(true)}
+                        icon={<PlusOutlined />}
+                        type="primary"
+                    >
+                        ADD
+                    </Button>
+                </Flex>
+
+                <Table
+                    size="small"
+                    pagination={{
+                        pageSize: 10,
+                        position: ["bottomCenter"],
+                        showSizeChanger: false,
+                    }}
+                    scroll={{
+                        x: "max-content",
+                    }}
+                    columns={columns}
+                    dataSource={props.accounting.map((data) => ({
+                        key: data.id,
+                        date: data.Date,
+                        name: data.Name,
+                        debit: (
+                            <CurrencyFormat
+                                value={data.Debit}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"IDR "}
+                            />
+                        ),
+                        credit: (
+                            <CurrencyFormat
+                                value={data.Credit}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"IDR "}
+                            />
+                        ),
+                        notes: data.Notes,
+                        action: (
+                            <Popconfirm
+                                title="Delete the data"
+                                description="Are you sure to delete this data?"
+                                okText="Yes"
+                                okButtonProps={{ danger: true }}
+                                cancelText="No"
+                                onConfirm={() => {
+                                    handleDelete(data.id);
+                                }}
+                                onCancel={() => setDeleteData(null)}
+                            >
+                                <Button
+                                    onClick={() => setDeleteData(data.id)}
+                                    icon={<DeleteOutlined />}
+                                    danger
+                                    type="primary"
+                                    shape="circle"
+                                />
+                            </Popconfirm>
+                        ),
+                    }))}
+                />
 
                 {/* Calculator Modal */}
                 <Modal
                     title="Calculator"
                     centered
                     open={modalCalculator}
-                    onOk={handleAdd}
                     onCancel={handleClose}
                     okButtonProps={{ style: { display: "none" } }}
                     cancelButtonProps={{ style: { display: "none" } }}
                 >
-                    <label className="label">
-                        <span className="label-text">
-                            What do you want to count?
-                        </span>
-                    </label>
-                    <Select
-                        className="w-full"
-                        size="large"
-                        onChange={(selectedValue) => {
-                            setCountName(selectedValue);
-                            setValue("");
-                            setPercentage("");
-                        }}
-                        value={countName}
-                        options={[
-                            {
-                                value: "discount",
-                                label: "Discount",
-                            },
-                            {
-                                value: "ppn",
-                                label: "Value Added Tax (PPN)",
-                            },
-                        ]}
-                    />
-
-                    {countName == "ppn" ? (
-                        <>
-                            <div className="grid grid-cols-2 gap-1">
-                                <div>
-                                    <label className="label">
-                                        <span className="label-text">
-                                            Percentage
-                                        </span>
-                                    </label>
-                                    <Select
-                                        className="w-full"
-                                        size="large"
-                                        onChange={(selectedValue) =>
-                                            setPercentage(selectedValue)
-                                        }
-                                        value={percentage}
-                                        options={[
-                                            {
-                                                value: "10",
-                                                label: "10%",
-                                            },
-                                            {
-                                                value: "11",
-                                                label: "11%",
-                                            },
-                                        ]}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="label">
-                                        <span className="label-text">
-                                            Value
-                                        </span>
-                                    </label>
-                                    <InputNumber
-                                        className="w-full"
-                                        placeholder="Enter value"
-                                        size="large"
-                                        value={value}
-                                        formatter={(value) =>
-                                            `IDR ${value}`.replace(
-                                                /\B(?=(\d{3})+(?!\d))/g,
-                                                ","
-                                            )
-                                        }
-                                        parser={(value) =>
-                                            value.replace(/IDR\s?|(,*)/g, "")
-                                        }
-                                        onChange={(value) =>
-                                            setValue(parseFloat(value))
-                                        }
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex justify-center text-2xl font-bold text-indigo-400 mt-5">
+                    <Form layout="vertical" form={form}>
+                        <Form.Item name="select" label="">
+                            <Select
+                                style={{ width: "100%" }}
+                                size="large"
+                                onChange={(selectedValue) => {
+                                    setCountName(selectedValue);
+                                    setValue("");
+                                    setPercentage("");
+                                }}
+                                placeholder="What do you want to count?"
+                                value={countName}
+                                options={[
+                                    {
+                                        value: "discount",
+                                        label: "Discount",
+                                    },
+                                    {
+                                        value: "ppn",
+                                        label: "Value Added Tax (PPN)",
+                                    },
+                                ]}
+                            />
+                        </Form.Item>
+                        {countName == "ppn" ? (
+                            <>
+                                <Row gutter={[8, 8]}>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            name="percentage"
+                                            label="Percentage"
+                                        >
+                                            <Select
+                                                placeholder="Select percentage"
+                                                style={{ width: "100%" }}
+                                                size="large"
+                                                onChange={(selectedValue) =>
+                                                    setPercentage(selectedValue)
+                                                }
+                                                value={percentage}
+                                                options={[
+                                                    {
+                                                        value: "10",
+                                                        label: "10%",
+                                                    },
+                                                    {
+                                                        value: "11",
+                                                        label: "11%",
+                                                    },
+                                                ]}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item name="value" label="Value">
+                                            <InputNumber
+                                                style={{ width: "100%" }}
+                                                placeholder="Enter value"
+                                                size="large"
+                                                value={value}
+                                                formatter={(value) =>
+                                                    `IDR ${value}`.replace(
+                                                        /\B(?=(\d{3})+(?!\d))/g,
+                                                        ","
+                                                    )
+                                                }
+                                                parser={(value) =>
+                                                    value.replace(
+                                                        /IDR\s?|(,*)/g,
+                                                        ""
+                                                    )
+                                                }
+                                                onChange={(value) =>
+                                                    setValue(parseFloat(value))
+                                                }
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
                                 <CurrencyFormat
                                     value={calculatePPN(
                                         percentage,
@@ -409,61 +440,61 @@ export default function Accounting(props) {
                                     className="calculatedvalue"
                                     as="value"
                                 />
-                            </div>
-                        </>
-                    ) : (
-                        ""
-                    )}
-                    {countName == "discount" ? (
-                        <>
-                            <div className="grid grid-cols-2 gap-1">
-                                <div>
-                                    <label className="label">
-                                        <span className="label-text">
-                                            Percentage
-                                        </span>
-                                    </label>
-                                    <InputNumber
-                                        className="w-full"
-                                        size="large"
-                                        formatter={(value) => `${value}%`}
-                                        parser={(value) =>
-                                            value.replace("%", "")
-                                        }
-                                        onChange={(value) =>
-                                            setPercentage(value)
-                                        }
-                                        value={percentage}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="label">
-                                        <span className="label-text">
-                                            Value
-                                        </span>
-                                    </label>
-                                    <InputNumber
-                                        className="w-full"
-                                        placeholder="Enter value"
-                                        size="large"
-                                        value={value}
-                                        formatter={(value) =>
-                                            `IDR ${value}`.replace(
-                                                /\B(?=(\d{3})+(?!\d))/g,
-                                                ","
-                                            )
-                                        }
-                                        parser={(value) =>
-                                            value.replace(/IDR\s?|(,*)/g, "")
-                                        }
-                                        onChange={(value) =>
-                                            setValue(parseFloat(value))
-                                        }
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex justify-center text-2xl font-bold text-indigo-400 mt-5">
+                            </>
+                        ) : (
+                            ""
+                        )}
+                        {countName == "discount" ? (
+                            <>
+                                <Row gutter={[8, 8]}>
+                                    <Col span={12}>
+                                        <Form.Item
+                                            name="percentage"
+                                            label="Percentage"
+                                        >
+                                            <InputNumber
+                                                placeholder="Enter percentage"
+                                                style={{ width: "100%" }}
+                                                size="large"
+                                                formatter={(value) =>
+                                                    `${value}%`
+                                                }
+                                                parser={(value) =>
+                                                    value.replace("%", "")
+                                                }
+                                                onChange={(value) =>
+                                                    setPercentage(value)
+                                                }
+                                                value={percentage}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Form.Item name="value" label="Value">
+                                            <InputNumber
+                                                style={{ width: "100%" }}
+                                                placeholder="Enter value"
+                                                size="large"
+                                                value={value}
+                                                formatter={(value) =>
+                                                    `IDR ${value}`.replace(
+                                                        /\B(?=(\d{3})+(?!\d))/g,
+                                                        ","
+                                                    )
+                                                }
+                                                parser={(value) =>
+                                                    value.replace(
+                                                        /IDR\s?|(,*)/g,
+                                                        ""
+                                                    )
+                                                }
+                                                onChange={(value) =>
+                                                    setValue(parseFloat(value))
+                                                }
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
                                 <CurrencyFormat
                                     value={calculateDiscount(
                                         percentage,
@@ -475,11 +506,11 @@ export default function Accounting(props) {
                                     className="calculatedvalue"
                                     as="value"
                                 />
-                            </div>
-                        </>
-                    ) : (
-                        ""
-                    )}
+                            </>
+                        ) : (
+                            ""
+                        )}
+                    </Form>
                 </Modal>
 
                 {/* Add Modal */}
@@ -492,122 +523,150 @@ export default function Accounting(props) {
                     onOk={handleAdd}
                     onCancel={handleCancel}
                     cancelButtonProps={{
-                        className:
-                            "bg-red-600 hover:bg-red-800 border-0 button text-white",
+                        danger: true,
                     }}
                     okButtonProps={{
-                        className:
+                        disabled:
                             Date !== "" &&
                             Name !== "" &&
                             Debit > "-1" &&
                             Credit > "-1" &&
                             Notes !== ""
-                                ? "bg-emerald-400 border-0 hover:bg-emerald-700 button button-ok"
-                                : "btn-disabled border-0 button",
+                                ? false
+                                : true,
                     }}
                 >
-                    <form>
-                        <div className="grid grid-cols-2 gap-1">
-                            <div>
-                                <label className="label">
-                                    <span className="label-text">
-                                        Audit Date
-                                    </span>
-                                </label>
-                                <DatePicker
-                                    onChange={(date, dateString) =>
-                                        setDate(
-                                            moment(dateString).format(
-                                                "YYYY-MM-DD"
+                    <Form layout="vertical" form={form}>
+                        <Row gutter={[8, 8]}>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="date"
+                                    label="Audit Date"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <DatePicker
+                                        onChange={(date, dateString) =>
+                                            setDate(
+                                                moment(dateString).format(
+                                                    "YYYY-MM-DD"
+                                                )
                                             )
-                                        )
-                                    }
-                                    size="large"
-                                    className="w-full"
-                                    placeholder="Select audit date"
-                                />
-                            </div>
-                            <div>
-                                <label className="label">
-                                    <span className="label-text">
-                                        Audit Name
-                                    </span>
-                                </label>
-                                <Select
-                                    className="w-full"
-                                    size="large"
-                                    onChange={(selectedValue) =>
-                                        setName(selectedValue)
-                                    }
-                                    value={Name}
-                                    defaultValue="Assets"
-                                    options={auditNames}
-                                />
-                            </div>
-                            <div>
-                                <label className="label">
-                                    <span className="label-text">
-                                        Debit Value
-                                    </span>
-                                </label>
-                                <InputNumber
-                                    className="w-full"
-                                    placeholder="Enter debit value"
-                                    size="large"
-                                    value={Debit}
-                                    formatter={(value) =>
-                                        `IDR ${value}`.replace(
-                                            /\B(?=(\d{3})+(?!\d))/g,
-                                            ","
-                                        )
-                                    }
-                                    parser={(value) =>
-                                        value.replace(/IDR\s?|(,*)/g, "")
-                                    }
-                                    onChange={(value) =>
-                                        setDebit(parseFloat(value))
-                                    }
-                                />
-                            </div>
-                            <div>
-                                <label className="label">
-                                    <span className="label-text">
-                                        Credit Value
-                                    </span>
-                                </label>
-                                <InputNumber
-                                    className="w-full"
-                                    placeholder="Enter debit value"
-                                    size="large"
-                                    value={Credit}
-                                    formatter={(value) =>
-                                        `IDR ${value}`.replace(
-                                            /\B(?=(\d{3})+(?!\d))/g,
-                                            ","
-                                        )
-                                    }
-                                    parser={(value) =>
-                                        value.replace(/IDR\s?|(,*)/g, "")
-                                    }
-                                    onChange={(value) =>
-                                        setCredit(parseFloat(value))
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <label className="label">
-                            <span className="label-text">Notes</span>
-                        </label>
-                        <Input.TextArea
-                            placeholder="Detail (Keep it short but detailed"
-                            className="w-full"
-                            onChange={(Notes) => setNotes(Notes.target.value)}
-                            value={Notes}
-                            size="large"
-                            rows={2}
-                            autoSize={false}
-                        />
-                    </form>
+                                        }
+                                        size="large"
+                                        style={{ width: "100%" }}
+                                        placeholder="Select audit date"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="audit_name"
+                                    label="Audit Name"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <Select
+                                        style={{ width: "100%" }}
+                                        size="large"
+                                        onChange={(selectedValue) =>
+                                            setName(selectedValue)
+                                        }
+                                        value={Name}
+                                        placeholder="Select audit name"
+                                        options={auditNames}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="debit_value"
+                                    label="Debit Value"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <InputNumber
+                                        style={{ width: "100%" }}
+                                        placeholder="Enter debit value"
+                                        size="large"
+                                        value={Debit}
+                                        formatter={(value) =>
+                                            `IDR ${value}`.replace(
+                                                /\B(?=(\d{3})+(?!\d))/g,
+                                                ","
+                                            )
+                                        }
+                                        parser={(value) =>
+                                            value.replace(/IDR\s?|(,*)/g, "")
+                                        }
+                                        onChange={(value) =>
+                                            setDebit(parseFloat(value))
+                                        }
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="credit_value"
+                                    label="Credit Value"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                >
+                                    <InputNumber
+                                        style={{ width: "100%" }}
+                                        placeholder="Enter debit value"
+                                        size="large"
+                                        value={Credit}
+                                        formatter={(value) =>
+                                            `IDR ${value}`.replace(
+                                                /\B(?=(\d{3})+(?!\d))/g,
+                                                ","
+                                            )
+                                        }
+                                        parser={(value) =>
+                                            value.replace(/IDR\s?|(,*)/g, "")
+                                        }
+                                        onChange={(value) =>
+                                            setCredit(parseFloat(value))
+                                        }
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Form.Item
+                            name="notes"
+                            label="Notes"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Input.TextArea
+                                placeholder="Detail (Keep it short but detailed"
+                                style={{ width: "100%" }}
+                                onChange={(Notes) =>
+                                    setNotes(Notes.target.value)
+                                }
+                                value={Notes}
+                                size="large"
+                                rows={2}
+                                autoSize={false}
+                            />
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </Authenticated>
         </>

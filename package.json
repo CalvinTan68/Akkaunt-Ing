@@ -17,7 +17,6 @@
         "@inertiajs/progress": "^0.2.6",
         "@tailwindcss/forms": "^0.5.7",
         "autoprefixer": "^10.4.2",
-        "axios": "^1.6.2",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
@@ -27,12 +26,10 @@
     },
     "dependencies": {
         "@ant-design/icons": "^5.2.6",
-        "@inertiajs/react": "^1.0.14",
-        "antd": "^5.11.2",
+        "antd": "^5.11.3",
+        "axios": "^1.6.2",
         "chart.js": "^4.4.0",
-        "daisyui": "^2.52.0",
         "moment": "^2.29.4",
-        "nprogress": "^0.2.0",
         "react-chartjs-2": "^5.2.0",
         "react-currency-format": "^1.1.0"
     }

@@ -4,11 +4,7 @@ import React from "react";
 import { render } from "react-dom";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import { InertiaProgress } from "@inertiajs/progress";
-import "./Pages/style.css";
-
-const appName =
-    window.document.getElementsByTagName("title")[0]?.innerText ||
-    "AKKAUNT-ING";
+import "./style.css";
 
 createInertiaApp({
     title: (title) => `AKKAUNT-ING - ${title}`,
@@ -18,4 +14,4 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: "#4F46E5" });
+InertiaProgress.init();
