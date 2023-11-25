@@ -1,3 +1,9 @@
+# About Project
+
+So this is a bookkeeping web-app, based on Laravel (PHP) on the backend and ReactJS on the frontend.
+
+Check the live site <a href="https://akkaunt-ing.rf.gd" target="_blank">here</a>. It might load/run a bit slow, because it's hosted on free server (InfinityFree), but it's enough to having "it works well" principles.
+
 # How to use this project
 
 1. Of course, you need to clone the repo
@@ -17,11 +23,15 @@
     ```
     composer install && npm install
     ```
-6. Migrate database tables with this command in your terminal
+6. You need to generate the APP_KEY with this command
+    ```
+    php artisan key:generate
+    ```
+7. Then, migrate database tables with this command in your terminal
     ```
     php artisan migrate:fresh
     ```
-7. Start the server with
+8. Start the server with
     ```
     php artisan serve
     ```
