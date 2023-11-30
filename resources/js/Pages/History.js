@@ -28,6 +28,7 @@ export default function Dashboard(props) {
                 <Head title="History" />
                 <Typography.Title level={2}>History</Typography.Title>
                 <Table
+                    rowKey="created_at"
                     size="small"
                     pagination={{
                         pageSize: 15,

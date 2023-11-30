@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
 import { Button, Dropdown, Layout, Typography } from "antd";
 import {
     CalculatorOutlined,
@@ -30,7 +29,7 @@ export default function Authenticated({ auth, children }) {
         },
         {
             label: (
-                <Link onClick={() => Inertia.post(route("logout"))}>
+                <Link href={route("logout")} method="post">
                     Logout
                 </Link>
             ),

@@ -105,93 +105,6 @@ export default function Accounting(props) {
             key: "action",
         },
     ];
-    //     {
-    //         align: "center",
-    //         title: "Date",
-    //         width: "max-content",
-    //         dataIndex: "Date",
-    //         key: "Date",
-    //         fixed: "left",
-    //     },
-    //     {
-    //         align: "center",
-    //         title: "Name",
-    //         width: "max-content",
-    //         dataIndex: "Name",
-    //         key: "Name",
-    //         filters: [...auditNames],
-    //         filterMode: "menu",
-    //         filterSearch: true,
-    //         onFilter: (value, record) => record.name.includes(value),
-    //     },
-    //     {
-    //         align: "center",
-    //         title: "Debit",
-    //         width: "max-content",
-    //         dataIndex: "Debit",
-    //         key: "Debit",
-    //         className: "debit",
-    //         render: (text, record) => (
-    //             <CurrencyFormat
-    //                 value={record.Debit}
-    //                 displayType={"text"}
-    //                 thousandSeparator={true}
-    //                 prefix={"IDR "}
-    //             />
-    //         ),
-    //     },
-    //     {
-    //         align: "center",
-    //         title: "Credit",
-    //         width: "max-content",
-    //         dataIndex: "Credit",
-    //         key: "Credit",
-    //         className: "credit",
-    //         render: (text, record) => (
-    //             <CurrencyFormat
-    //                 value={record.Credit}
-    //                 displayType={"text"}
-    //                 thousandSeparator={true}
-    //                 prefix={"IDR "}
-    //             />
-    //         ),
-    //     },
-    //     {
-    //         align: "center",
-    //         title: "Notes",
-    //         width: "max-content",
-    //         dataIndex: "Notes",
-    //         key: "Notes",
-    //     },
-    //     {
-    //         align: "center",
-    //         title: "Action",
-    //         width: "max-content",
-    //         dataIndex: "Action",
-    //         key: "Action",
-    //         render: (text, record) => (
-    //             <Popconfirm
-    //                 title="Delete the data"
-    //                 description="Are you sure to delete this data?"
-    //                 okText="Yes"
-    //                 okButtonProps={{ danger: true }}
-    //                 cancelText="No"
-    //                 onConfirm={() => {
-    //                     handleDelete(record.id);
-    //                 }}
-    //                 onCancel={() => setDeleteData(null)}
-    //             >
-    //                 <Button
-    //                     onClick={() => setDeleteData(record.id)}
-    //                     icon={<DeleteOutlined />}
-    //                     danger
-    //                     type="primary"
-    //                     shape="circle"
-    //                 />
-    //             </Popconfirm>
-    //         ),
-    //     },
-    // ];
 
     const clearData = () => {
         setCountName("");
@@ -286,6 +199,7 @@ export default function Accounting(props) {
                 </Flex>
 
                 <Table
+                    rowKey={props.accounting.id}
                     size="small"
                     pagination={{
                         pageSize: 10,

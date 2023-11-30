@@ -134,6 +134,7 @@ export default function Dashboard(props) {
                         <Divider>Recent Data Entry</Divider>
                         {props.recentdata.length > 0 && (
                             <Table
+                                rowKey="id"
                                 dataSource={props.recentdata}
                                 columns={columns}
                                 pagination={false}
