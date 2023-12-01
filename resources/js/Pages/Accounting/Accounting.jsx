@@ -26,6 +26,7 @@ import { Head } from "@inertiajs/inertia-react";
 import CurrencyFormat from "react-currency-format";
 import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
+import { accounts } from "@/Data/Accounts";
 
 export default function Accounting(props) {
     const [form] = Form.useForm();
@@ -42,17 +43,13 @@ export default function Accounting(props) {
     const [percentage, setPercentage] = useState("");
     const [value, setValue] = useState("");
 
-    const auditNames = [
-        "Assets",
-        "Cash",
-        "Debits",
-        "Expenses",
-        "Incomes",
-        "Returns - Purchase",
-        "Returns - Sales",
-        "Supplies",
-        "Tax",
-    ].map((name) => ({ text: name, value: name, label: name }));
+    const auditNames = accounts
+        .map((name) => ({
+            text: name,
+            value: name,
+            label: name,
+        }))
+        .sort((a, b) => a.text.localeCompare(b.text));
 
     const columns = [
         {
@@ -286,6 +283,7 @@ export default function Accounting(props) {
                                         label: "Value Added Tax (PPN)",
                                     },
                                 ]}
+                                showSearch
                             />
                         </Form.Item>
                         {countName == "ppn" ? (
@@ -314,6 +312,7 @@ export default function Accounting(props) {
                                                         label: "11%",
                                                     },
                                                 ]}
+                                                showSearch
                                             />
                                         </Form.Item>
                                     </Col>
@@ -495,6 +494,7 @@ export default function Accounting(props) {
                                         value={Name}
                                         placeholder="Select audit name"
                                         options={auditNames}
+                                        showSearch
                                     />
                                 </Form.Item>
                             </Col>
@@ -569,7 +569,7 @@ export default function Accounting(props) {
                             ]}
                         >
                             <Input.TextArea
-                                placeholder="Detail (Keep it short but detailed"
+                                placeholder="Explanation"
                                 style={{ width: "100%" }}
                                 onChange={(Notes) =>
                                     setNotes(Notes.target.value)
