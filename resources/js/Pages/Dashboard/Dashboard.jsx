@@ -128,7 +128,6 @@ export default function Dashboard(props) {
                         : "Good Evening"}
                     , {props.auth.user.name}
                 </Typography.Title>
-
                 <Row gutter={[8, 8]}>
                     <Col xs={24} lg={12}>
                         <Divider>Recent Data Entry</Divider>

@@ -36,8 +36,8 @@ Check the live site <a href="https://akkaunt-ing.rf.gd" target="_blank">here</a>
     php artisan serve
     ```
 
-If you want to change something on the `/resources/js`, run `npm run watch` so you can see the changes, otherwise nothing will happen
+If you want to change something on the `/resources/js`, run `npm run dev` so you can see the changes, otherwise nothing will happen
 
 # Future Plan
 
--   Laravel (PHP) version of this project will be deprecated and replaced with other framework like React / others
+-   This project will be still continued and maintained to be improved.

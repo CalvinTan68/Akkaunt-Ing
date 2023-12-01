@@ -1,0 +1,132 @@
+{
+  "_Authenticated-f17e2ebf.js": {
+    "file": "assets/Authenticated-f17e2ebf.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_index-9e5c0d9a.js"
+    ]
+  },
+  "_MailOutlined-16e5b73a.js": {
+    "file": "assets/MailOutlined-16e5b73a.js",
+    "imports": [
+      "_index-9e5c0d9a.js",
+      "resources/js/app.jsx"
+    ]
+  },
+  "_index-4647e14b.js": {
+    "file": "assets/index-4647e14b.js",
+    "imports": [
+      "_index-9e5c0d9a.js",
+      "resources/js/app.jsx",
+      "_row-3f2c9c33.js"
+    ]
+  },
+  "_index-8316d98b.js": {
+    "file": "assets/index-8316d98b.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_index-9e5c0d9a.js",
+      "_row-3f2c9c33.js"
+    ]
+  },
+  "_index-9e5c0d9a.js": {
+    "file": "assets/index-9e5c0d9a.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_moment-b35318ac.js": {
+    "file": "assets/moment-b35318ac.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_row-3f2c9c33.js": {
+    "file": "assets/row-3f2c9c33.js",
+    "imports": [
+      "_index-9e5c0d9a.js",
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/Pages/Accounting/Accounting.jsx": {
+    "file": "assets/Accounting-de4abcdd.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Authenticated-f17e2ebf.js",
+      "_moment-b35318ac.js",
+      "_index-4647e14b.js",
+      "_index-9e5c0d9a.js",
+      "_row-3f2c9c33.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Accounting/Accounting.jsx"
+  },
+  "resources/js/Pages/Auth/Login.jsx": {
+    "file": "assets/Login-62ca316d.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_index-8316d98b.js",
+      "_index-9e5c0d9a.js",
+      "_index-4647e14b.js",
+      "_MailOutlined-16e5b73a.js",
+      "_row-3f2c9c33.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Auth/Login.jsx"
+  },
+  "resources/js/Pages/Auth/Register.jsx": {
+    "file": "assets/Register-a03801fe.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_index-8316d98b.js",
+      "_index-9e5c0d9a.js",
+      "_index-4647e14b.js",
+      "_MailOutlined-16e5b73a.js",
+      "_row-3f2c9c33.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Auth/Register.jsx"
+  },
+  "resources/js/Pages/Dashboard/Dashboard.jsx": {
+    "file": "assets/Dashboard-1298a8f5.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Authenticated-f17e2ebf.js",
+      "_moment-b35318ac.js",
+      "_index-9e5c0d9a.js",
+      "_row-3f2c9c33.js",
+      "_index-8316d98b.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Dashboard/Dashboard.jsx"
+  },
+  "resources/js/Pages/History/History.jsx": {
+    "file": "assets/History-4b6102b7.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Authenticated-f17e2ebf.js",
+      "_index-9e5c0d9a.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/History/History.jsx"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-598231d9.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.jsx": {
+    "css": [
+      "assets/app-598231d9.css"
+    ],
+    "dynamicImports": [
+      "resources/js/Pages/Accounting/Accounting.jsx",
+      "resources/js/Pages/Auth/Login.jsx",
+      "resources/js/Pages/Auth/Register.jsx",
+      "resources/js/Pages/Dashboard/Dashboard.jsx",
+      "resources/js/Pages/History/History.jsx"
+    ],
+    "file": "assets/app-4156243a.js",
+    "isEntry": true,
+    "src": "resources/js/app.jsx"
+  }
+}

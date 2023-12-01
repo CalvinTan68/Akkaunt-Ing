@@ -204,7 +204,7 @@ export default function Accounting(props) {
                     pagination={{
                         pageSize: 10,
                         position: ["bottomCenter"],
-                        showSizeChanger: false,
+                        hideOnSinglePage: true,
                     }}
                     scroll={{
                         x: "max-content",

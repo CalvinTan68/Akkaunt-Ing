@@ -33,7 +33,7 @@ export default function Dashboard(props) {
                     pagination={{
                         pageSize: 15,
                         position: ["bottomCenter"],
-                        showSizeChanger: false,
+                        hideOnSinglePage: true,
                     }}
                     columns={columns}
                     dataSource={data}
