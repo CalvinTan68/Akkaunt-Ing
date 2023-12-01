@@ -18,7 +18,7 @@ class CRUDHistoryController extends Controller
     {
         $user = auth()->user()->id;
         $history = CRUDHistory::select(['Description', 'Type', 'created_at'])->where('User', '=', $user)->orderBy('created_at', 'desc')->limit(100)->get();
-        return Inertia::render('History', [
+        return Inertia::render('History/History', [
             'history' => $history,
         ]);
     }

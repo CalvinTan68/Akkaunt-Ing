@@ -23,7 +23,7 @@ class AccountingController extends Controller
     {
         $user = auth()->user()->id;
         $accounting = Accounting::where('User', $user)->orderBy('Date','desc')->get();
-        return Inertia::render('Accounting', [
+        return Inertia::render('Accounting/Accounting', [
             'accounting' => $accounting,
         ]);
     }

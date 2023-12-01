@@ -37,7 +37,7 @@ class DashboardController extends Controller
         $accountingthisyearincome = Accounting::where('User', $user)->whereBetween('Date', [$currentyear.'-01-01', $currentyear.'-12-31'])->where('Name','Incomes')->sum('Debit');
         $accountingthisyearexpense = Accounting::select(['Credit'])->where('User', $user)->whereBetween('Date', [$currentyear.'-01-01', $currentyear.'-12-31'])->where('Name','Expenses')->sum('Credit');
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Dashboard/Dashboard', [
             'accountingtotaldebit' => $accountingtotaldebit,
             'accountingtotalcredit' => $accountingtotalcredit,
             'accountingtotalincome' => $accountingtotalincome,
