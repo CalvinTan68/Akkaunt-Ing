@@ -35,9 +35,13 @@ Check the live site <a href="https://akkaunt-ing.rf.gd" target="_blank">here</a>
     ```
     php artisan serve
     ```
+9. Open new terminal tab and run
+    ```
+    npm run dev
+    ```
 
-If you want to change something on the `/resources/js`, run `npm run dev` so you can see the changes, otherwise nothing will happen
+`npm run dev` for starting the development server, and `npm run prod` for build a production version
 
 # Future Plan
 
--   This project will be still continued and maintained to be improved.
+-   This project will be slowly maintained and upgraded to improve usability and security.
