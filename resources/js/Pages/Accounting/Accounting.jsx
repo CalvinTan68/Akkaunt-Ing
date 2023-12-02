@@ -23,7 +23,6 @@ import {
 } from "@ant-design/icons";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
-import CurrencyFormat from "react-currency-format";
 import { Inertia } from "@inertiajs/inertia";
 import moment from "moment";
 import { accounts } from "@/Data/Accounts";
@@ -212,20 +211,24 @@ export default function Accounting(props) {
                         date: data.Date,
                         name: data.Name,
                         debit: (
-                            <CurrencyFormat
-                                value={data.Debit}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                prefix={"IDR "}
-                            />
+                            <>
+                                <Typography className="debit">
+                                    IDR{" "}
+                                    {new Intl.NumberFormat("en-US").format(
+                                        data.Debit
+                                    )}
+                                </Typography>
+                            </>
                         ),
                         credit: (
-                            <CurrencyFormat
-                                value={data.Credit}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                prefix={"IDR "}
-                            />
+                            <>
+                                <Typography className="credit">
+                                    IDR{" "}
+                                    {new Intl.NumberFormat("en-US").format(
+                                        data.Credit
+                                    )}
+                                </Typography>
+                            </>
                         ),
                         notes: data.Notes,
                         action: (
@@ -342,17 +345,14 @@ export default function Accounting(props) {
                                         </Form.Item>
                                     </Col>
                                 </Row>
-                                <CurrencyFormat
-                                    value={calculatePPN(
-                                        percentage,
-                                        value
-                                    ).toFixed(0)}
-                                    displayType={"text"}
-                                    thousandSeparator={true}
-                                    prefix={"IDR "}
-                                    className="calculatedvalue"
-                                    as="value"
-                                />
+                                <Typography className="calculatedvalue">
+                                    IDR{" "}
+                                    {new Intl.NumberFormat("en-US").format(
+                                        calculatePPN(percentage, value).toFixed(
+                                            0
+                                        )
+                                    )}
+                                </Typography>
                             </>
                         ) : (
                             ""
@@ -408,17 +408,15 @@ export default function Accounting(props) {
                                         </Form.Item>
                                     </Col>
                                 </Row>
-                                <CurrencyFormat
-                                    value={calculateDiscount(
-                                        percentage,
-                                        value
-                                    ).toFixed(0)}
-                                    displayType={"text"}
-                                    thousandSeparator={true}
-                                    prefix={"IDR "}
-                                    className="calculatedvalue"
-                                    as="value"
-                                />
+                                <Typography className="calculatedvalue">
+                                    IDR{" "}
+                                    {new Intl.NumberFormat("en-US").format(
+                                        calculateDiscount(
+                                            percentage,
+                                            value
+                                        ).toFixed(0)
+                                    )}
+                                </Typography>
                             </>
                         ) : (
                             ""

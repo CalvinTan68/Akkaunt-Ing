@@ -6,7 +6,6 @@ import { Card, Carousel, Col, Divider, Row, Table, Typography } from "antd";
 import { Tooltip as Tippy } from "antd";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import moment from "moment";
-import CurrencyFormat from "react-currency-format";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -82,14 +81,8 @@ export default function Dashboard(props) {
             key: "debit",
             className: "debit",
             align: "center",
-            render: (debit) => (
-                <CurrencyFormat
-                    value={debit}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"IDR "}
-                />
-            ),
+            render: (debit) =>
+                "IDR " + new Intl.NumberFormat("en-US").format(debit),
         },
         {
             title: "Credit",
@@ -97,14 +90,8 @@ export default function Dashboard(props) {
             key: "credit",
             className: "credit",
             align: "center",
-            render: (credit) => (
-                <CurrencyFormat
-                    value={credit}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"IDR "}
-                />
-            ),
+            render: (credit) =>
+                "IDR " + new Intl.NumberFormat("en-US").format(credit),
         },
         {
             title: "Added on",
@@ -131,7 +118,7 @@ export default function Dashboard(props) {
                 <Row gutter={[8, 8]}>
                     <Col xs={24} lg={12}>
                         <Divider>Recent Data Entry</Divider>
-                        {props.recentdata.length > 0 && (
+                        {props.recentdata.length > 0 ? (
                             <Table
                                 rowKey="id"
                                 dataSource={props.recentdata}
@@ -139,6 +126,8 @@ export default function Dashboard(props) {
                                 pagination={false}
                                 size="small"
                             />
+                        ) : (
+                            <Typography>No recent data</Typography>
                         )}
                     </Col>
                     <Col xs={24} lg={12}>
@@ -159,7 +148,11 @@ export default function Dashboard(props) {
                                                     "0" &&
                                                 props.accountingtotalcredit >
                                                     "0" ? (
-                                                    <Pie data={datatotal1} />
+                                                    <>
+                                                        <Pie
+                                                            data={datatotal1}
+                                                        />
+                                                    </>
                                                 ) : (
                                                     <Typography.Text>
                                                         Graph unavailable
