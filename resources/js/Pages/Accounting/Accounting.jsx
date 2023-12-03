@@ -22,8 +22,9 @@ import {
     DownloadOutlined,
 } from "@ant-design/icons";
 import Authenticated from "@/Layouts/Authenticated";
-import { Head } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
+import { Head } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+
 import moment from "moment";
 import { accounts } from "@/Data/Accounts";
 
@@ -146,12 +147,12 @@ export default function Accounting(props) {
             Credit,
             Notes,
         };
-        Inertia.post("/new", data);
+        router.post("/new", data);
         clearData();
     };
 
     const handleDelete = (id) => {
-        Inertia.post("/delete", { id });
+        router.post("/delete", { id });
         clearData();
     };
 
@@ -248,7 +249,6 @@ export default function Accounting(props) {
                                     icon={<DeleteOutlined />}
                                     danger
                                     type="primary"
-                                    shape="circle"
                                 />
                             </Popconfirm>
                         ),

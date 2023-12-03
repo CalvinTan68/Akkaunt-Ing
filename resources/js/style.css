@@ -50,4 +50,7 @@ textarea {
     .body-container {
         padding: 0 10px;
     }
+    .auth-component {
+        width: 100vw !important;
+    }
 }

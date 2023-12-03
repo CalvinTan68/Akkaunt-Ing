@@ -1,22 +1,27 @@
 import React from "react";
 import "./bootstrap";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import { createInertiaApp } from "@inertiajs/inertia-react";
-import { InertiaProgress } from "@inertiajs/progress";
-import "./style.css";
+import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
+import "./style.css";
 
-createInertiaApp({
+const resolveComponent = (name) =>
+    resolvePageComponent(
+        `./Pages/${name}.jsx`,
+        import.meta.glob("./Pages/**/*.jsx")
+    );
+
+const setupApp = ({ el, App, props }) => {
+    createRoot(el).render(<App {...props} />);
+};
+
+const inertiaAppConfig = {
     title: (title) => `AKKAUNT-ING - ${title}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.jsx`,
-            import.meta.glob("./Pages/**/*.jsx")
-        ),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
-        root.render(<App {...props} />);
+    resolve: resolveComponent,
+    setup: setupApp,
+    progress: {
+        color: "#29d",
     },
-});
+};
 
-InertiaProgress.init();
+createInertiaApp(inertiaAppConfig);

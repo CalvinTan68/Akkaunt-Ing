@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Input, Form, Button, Card, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 
@@ -39,6 +39,7 @@ export default function Login({ status }) {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                 }}
+                className="auth-component"
             >
                 {status && (
                     <div className="mb-4 font-medium text-sm text-green-600">

@@ -1,6 +1,6 @@
 import React from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 import { Pie } from "react-chartjs-2";
 import { Card, Carousel, Col, Divider, Row, Table, Typography } from "antd";
 import { Tooltip as Tippy } from "antd";

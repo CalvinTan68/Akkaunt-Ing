@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Input, Form, Button, Typography, Card } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -39,6 +39,7 @@ export default function Register() {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                 }}
+                className="auth-component"
             >
                 <Form
                     layout="vertical"

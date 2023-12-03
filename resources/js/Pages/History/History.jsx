@@ -1,10 +1,10 @@
 import React from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 import { Table, Typography } from "antd";
 
 export default function Dashboard(props) {
-    const data = props.history;
+    const history = props.history;
     const columns = [
         {
             key: "Type",
@@ -36,7 +36,7 @@ export default function Dashboard(props) {
                         hideOnSinglePage: true,
                     }}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={history}
                 />
             </Authenticated>
         </>
