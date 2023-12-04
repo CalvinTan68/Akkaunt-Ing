@@ -10,9 +10,6 @@ tr {
 .credit {
     color: #ff5e52;
 }
-.modal textarea {
-    resize: none;
-}
 .calculatedvalue {
     font-size: 25px;
     font-weight: bold;
@@ -25,10 +22,6 @@ tr {
 }
 .ant-carousel .slick-dots li button {
     background: lightgrey !important;
-}
-
-textarea {
-    resize: none !important;
 }
 
 .ant-input-number-handler-wrap {

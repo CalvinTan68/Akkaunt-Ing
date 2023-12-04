@@ -16,4 +16,5 @@ export const accounts = [
     "Equipment",
     "Cash",
     "Building",
+    "Expenses",
 ];
