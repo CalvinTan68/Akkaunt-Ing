@@ -6,36 +6,68 @@ import {
     ClockCircleOutlined,
     HomeOutlined,
     LogoutOutlined,
-    UnorderedListOutlined,
+    MenuOutlined,
 } from "@ant-design/icons";
 const { Header, Content } = Layout;
 
 export default function Authenticated({ auth, children }) {
     const items = [
         {
-            label: <Link href={route("dashboard")}>Dashboard</Link>,
+            label: (
+                <Link href={route("dashboard")}>
+                    <Button
+                        size="large"
+                        icon={<HomeOutlined />}
+                        className="menu-item"
+                    >
+                        Dashboard
+                    </Button>
+                </Link>
+            ),
             key: "dashboard",
-            icon: <HomeOutlined />,
         },
         {
-            label: <Link href={route("accounting")}>Accounting</Link>,
+            label: (
+                <Link href={route("accounting")}>
+                    <Button
+                        size="large"
+                        icon={<CalculatorOutlined />}
+                        className="menu-item"
+                    >
+                        Accounting
+                    </Button>
+                </Link>
+            ),
             key: "accounting",
-            icon: <CalculatorOutlined />,
         },
         {
-            label: <Link href={route("history")}>History</Link>,
+            label: (
+                <Link href={route("history")}>
+                    <Button
+                        size="large"
+                        icon={<ClockCircleOutlined />}
+                        className="menu-item"
+                    >
+                        History
+                    </Button>
+                </Link>
+            ),
             key: "history",
-            icon: <ClockCircleOutlined />,
         },
         {
             label: (
                 <Link href={route("logout")} method="post">
-                    Logout
+                    <Button
+                        size="large"
+                        icon={<LogoutOutlined />}
+                        className="menu-item"
+                        danger
+                    >
+                        Logout
+                    </Button>
                 </Link>
             ),
             key: "logout",
-            icon: <LogoutOutlined />,
-            danger: true,
         },
     ];
 
@@ -56,7 +88,7 @@ export default function Authenticated({ auth, children }) {
                         <Button
                             type="primary"
                             size="large"
-                            icon={<UnorderedListOutlined />}
+                            icon={<MenuOutlined />}
                         />
                     </Dropdown>
                     <Link href="/dashboard">

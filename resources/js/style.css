@@ -47,3 +47,11 @@ tr {
         width: 100vw !important;
     }
 }
+
+.menu-item {
+    border: 0 !important;
+    background: transparent !important;
+}
+.ant-dropdown-menu-item {
+    padding: 0 !important;
+}
