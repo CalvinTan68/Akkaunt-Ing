@@ -19,9 +19,9 @@
     "dependencies": {
         "@ant-design/icons": "^5.2.6",
         "@inertiajs/react": "^1.0.14",
-        "antd": "^5.11.3",
+        "antd": "^5.12.1",
         "axios": "^1.6.2",
-        "chart.js": "^4.4.0",
+        "chart.js": "^4.4.1",
         "moment": "^2.29.4",
         "react-chartjs-2": "^5.2.0"
     }
