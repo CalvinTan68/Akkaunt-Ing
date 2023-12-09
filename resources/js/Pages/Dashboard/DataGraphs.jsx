@@ -1,5 +1,5 @@
 import { Pie } from "react-chartjs-2";
-import { Card, Carousel, Col, Divider, Row, Typography } from "antd";
+import { Card, Carousel, Col, Divider, Empty, Row, Typography } from "antd";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
 import moment from "moment";
@@ -65,6 +65,32 @@ export default function DataGraphs({ data }) {
             {data.accountingtotalfromyear !== "" ? (
                 <Carousel draggable="true" accessibility="true">
                     <Card
+                        title={`${year}-01-01 - ${year}-12-31`}
+                        headStyle={{ textAlign: "center" }}
+                        style={{
+                            width: "auto",
+                        }}
+                    >
+                        <Row>
+                            <Col xs={12}>
+                                {data.accountingthisyeardebit > "0" &&
+                                data.accountingthisyearcredit > "0" ? (
+                                    <Pie data={datathisyear1} />
+                                ) : (
+                                    <Empty />
+                                )}
+                            </Col>
+                            <Col xs={12}>
+                                {data.accountingthisyearincome > "0" &&
+                                data.accountingthisyearexpense > "0" ? (
+                                    <Pie data={datathisyear2} />
+                                ) : (
+                                    <Empty />
+                                )}
+                            </Col>
+                        </Row>
+                    </Card>
+                    <Card
                         title={`${data.accountingtotalfromyear?.Date} - ${data.accountingtotaltoyear?.Date}`}
                         headStyle={{ textAlign: "center" }}
                         style={{
@@ -79,9 +105,7 @@ export default function DataGraphs({ data }) {
                                         <Pie data={datatotal1} />
                                     </>
                                 ) : (
-                                    <Typography.Text>
-                                        Graph unavailable
-                                    </Typography.Text>
+                                    <Empty />
                                 )}
                             </Col>
                             <Col xs={12}>
@@ -89,39 +113,7 @@ export default function DataGraphs({ data }) {
                                 data.accountingtotalexpense > "0" ? (
                                     <Pie data={datatotal2} />
                                 ) : (
-                                    <Typography.Text>
-                                        Graph unavailable
-                                    </Typography.Text>
-                                )}
-                            </Col>
-                        </Row>
-                    </Card>
-                    <Card
-                        title={`${year}-01-01 - ${year}-12-31`}
-                        headStyle={{ textAlign: "center" }}
-                        style={{
-                            width: "auto",
-                        }}
-                    >
-                        <Row>
-                            <Col xs={12}>
-                                {data.accountingthisyeardebit > "0" &&
-                                data.accountingthisyearcredit > "0" ? (
-                                    <Pie data={datathisyear1} />
-                                ) : (
-                                    <Typography.Text>
-                                        Graph unavailable
-                                    </Typography.Text>
-                                )}
-                            </Col>
-                            <Col xs={12}>
-                                {data.accountingthisyearincome > "0" &&
-                                data.accountingthisyearexpense > "0" ? (
-                                    <Pie data={datathisyear2} />
-                                ) : (
-                                    <Typography.Text>
-                                        Graph unavailable
-                                    </Typography.Text>
+                                    <Empty />
                                 )}
                             </Col>
                         </Row>
