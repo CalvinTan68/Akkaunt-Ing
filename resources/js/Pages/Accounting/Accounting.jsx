@@ -22,7 +22,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 
-import moment from "moment";
+import dayjs from "dayjs";
 import { accounts } from "@/Data/Accounts";
 import DataTable from "./DataTable";
 import CalculatorModal from "./CalculatorModal";
@@ -167,7 +167,7 @@ export default function Accounting(props) {
                                     <DatePicker
                                         onChange={(date, dateString) =>
                                             setDate(
-                                                moment(dateString).format(
+                                                dayjs(dateString).format(
                                                     "YYYY-MM-DD"
                                                 )
                                             )

@@ -2,13 +2,13 @@ import { Pie } from "react-chartjs-2";
 import { Card, Carousel, Col, Divider, Empty, Row, Typography } from "antd";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function DataGraphs({ data }) {
     const date = new Date();
-    const year = moment(date).format("YYYY");
+    const year = dayjs(date).format("YYYY");
 
     const pieStyle = {
         label: "Value ",

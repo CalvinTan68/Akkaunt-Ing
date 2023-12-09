@@ -1,6 +1,6 @@
 import React from "react";
 import { Divider, Table, Typography } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export default function RecentData({ data }) {
     const columns = [
@@ -34,7 +34,7 @@ export default function RecentData({ data }) {
             key: "created_at",
             align: "center",
             render: (created_at) =>
-                moment(created_at).format("YYYY-MM-DD HH:MM:ss"),
+                dayjs(created_at).format("YYYY-MM-DD HH:MM:ss"),
         },
     ];
 

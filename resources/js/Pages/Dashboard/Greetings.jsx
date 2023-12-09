@@ -1,10 +1,10 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import { Typography } from "antd";
 
 export default function Greetings({ data }) {
     const date = new Date();
-    const greetings = moment(date).format("HH");
+    const greetings = dayjs(date).format("HH");
 
     let greetingText;
 
