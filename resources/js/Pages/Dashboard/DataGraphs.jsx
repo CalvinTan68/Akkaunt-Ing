@@ -101,9 +101,7 @@ export default function DataGraphs({ data }) {
                             <Col xs={12}>
                                 {data.accountingtotaldebit > "0" &&
                                 data.accountingtotalcredit > "0" ? (
-                                    <>
-                                        <Pie data={datatotal1} />
-                                    </>
+                                    <Pie data={datatotal1} />
                                 ) : (
                                     <Empty />
                                 )}
