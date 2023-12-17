@@ -26,9 +26,7 @@ export default function Login({ status }) {
 
     return (
         <>
-            {/* <Head title="Login" /> */}
             <Head title="Login" />
-
             <Card
                 title="Login"
                 extra={<Typography>AKKAUNT-ING</Typography>}

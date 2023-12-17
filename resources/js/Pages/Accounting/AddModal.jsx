@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Col,
     DatePicker,
@@ -82,7 +82,7 @@ export default function AddModal({ modalVisible, handleClose }) {
                                     size="large"
                                     style={{ width: "100%" }}
                                     placeholder="Select audit date"
-                                    onChange={(date, dateString) => {
+                                    onChange={(dateString) => {
                                         setDate(
                                             dayjs(dateString).format(
                                                 "YYYY-MM-DD"
@@ -121,6 +121,7 @@ export default function AddModal({ modalVisible, handleClose }) {
                                     style={{ width: "100%" }}
                                     placeholder="Enter debit value"
                                     size="large"
+                                    defaultValue={debit}
                                     value={debit}
                                     formatter={(value) =>
                                         `IDR ${value}`.replace(
@@ -147,6 +148,7 @@ export default function AddModal({ modalVisible, handleClose }) {
                                     style={{ width: "100%" }}
                                     placeholder="Enter credit value"
                                     size="large"
+                                    defaultValue={credit}
                                     value={credit}
                                     formatter={(value) =>
                                         `IDR ${value}`.replace(

@@ -28,7 +28,6 @@ export default function Register() {
     return (
         <>
             <Head title="Register" />
-
             <Card
                 title="Register"
                 extra={<Typography>AKKAUNT-ING</Typography>}

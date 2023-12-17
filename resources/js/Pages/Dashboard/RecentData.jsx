@@ -1,5 +1,5 @@
 import React from "react";
-import { Divider, Table, Typography } from "antd";
+import { Divider, Empty, Table } from "antd";
 import dayjs from "dayjs";
 
 export default function RecentData({ data }) {
@@ -50,7 +50,7 @@ export default function RecentData({ data }) {
                     size="small"
                 />
             ) : (
-                <Typography>No recent data</Typography>
+                <Empty />
             )}
         </>
     );
