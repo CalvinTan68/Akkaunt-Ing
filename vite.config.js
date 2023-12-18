@@ -9,4 +9,25 @@ export default defineConfig({
             "@": "/resources/js",
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (id.includes("@ant-design/icons")) {
+                        return "@icons";
+                    } else if (id.includes("@inertiajs/react")) {
+                        return "@inertia";
+                    } else if (id.includes("axios")) {
+                        return "@axios";
+                    } else if (id.includes("chart.js")) {
+                        return "@chart-js";
+                    } else if (id.includes("dayjs")) {
+                        return "@dayjs";
+                    } else if (id.includes("react-chartjs-2")) {
+                        return "@chart-js-react";
+                    }
+                },
+            },
+        },
+    },
 });
