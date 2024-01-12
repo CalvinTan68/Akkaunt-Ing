@@ -15,8 +15,6 @@ export default defineConfig({
                 manualChunks(id) {
                     if (id.includes("@ant-design/icons")) {
                         return "@icons";
-                    } else if (id.includes("@inertiajs/react")) {
-                        return "@inertia";
                     } else if (id.includes("axios")) {
                         return "@axios";
                     } else if (id.includes("chart.js")) {
