@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
-import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react-swc";
+import laravel from "laravel-vite-plugin";
+import { defineConfig } from "vite";
 
 export default defineConfig({
     plugins: [laravel(["resources/js/app.jsx"]), react()],
@@ -10,6 +10,7 @@ export default defineConfig({
         },
     },
     build: {
+        sourcemap: true,
         rollupOptions: {
             output: {
                 manualChunks(id) {
