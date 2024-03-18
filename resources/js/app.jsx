@@ -8,7 +8,7 @@ import "./style.css";
 const resolveComponent = (name) =>
     resolvePageComponent(
         `./Pages/${name}.jsx`,
-        import.meta.glob("./Pages/**/*.jsx")
+        import.meta.glob("./Pages/**/*.jsx"),
     );
 
 const setupApp = ({ el, App, props }) => {
