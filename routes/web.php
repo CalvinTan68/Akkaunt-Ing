@@ -24,29 +24,19 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/', [DashboardController::class, 'index'])
-->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/accounting', [AccountingController::class, 'index'])->name('accounting');
+    Route::post('/new', [AccountingController::class, 'store'])->name('new.accounting');
+    Route::post('/delete', [AccountingController::class, 'destroy'])->name('delete.accounting');
+    Route::get('/history', [CRUDHistoryController::class, 'index'])->name('history');
+    Route::get('/download_data', [AccountingController::class, 'download_data'])->name('download_data');
+});
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/accounting', [AccountingController::class, 'index'])
-->middleware(['auth', 'verified'])->name('accounting');
-
-Route::post('/new', [AccountingController::class, 'store'])
-->middleware(['auth', 'verified'])->name('new.accounting');
-
-Route::post('/delete', [AccountingController::class, 'destroy'])
-->middleware(['auth', 'verified'])->name('delete.accounting');
-
-Route::get('/history', [CRUDHistoryController::class, 'index'])
-->middleware(['auth', 'verified'])->name('history');
-
-Route::get('/download_data', [AccountingController::class, 'download_data'])
-->middleware(['auth', 'verified'])->name('download_data');
-
-Route::fallback(function() {
+Route::fallback(function () {
     return redirect("/");
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
