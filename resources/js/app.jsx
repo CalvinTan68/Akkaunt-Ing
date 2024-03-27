@@ -3,12 +3,11 @@ import "antd/dist/reset.css";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createRoot } from "react-dom/client";
 import "./bootstrap";
-import "./style.css";
 
 const resolveComponent = (name) =>
     resolvePageComponent(
         `./Pages/${name}.jsx`,
-        import.meta.glob("./Pages/**/*.jsx"),
+        import.meta.glob("./Pages/**/*.jsx")
     );
 
 const setupApp = ({ el, App, props }) => {
