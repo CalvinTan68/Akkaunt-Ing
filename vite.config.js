@@ -3,7 +3,10 @@ import laravel from "laravel-vite-plugin";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-    plugins: [laravel(["resources/js/app.jsx"]), react()],
+    plugins: [
+        laravel(["resources/js/app.jsx", "resources/css/app.css"]),
+        react(),
+    ],
     resolve: {
         alias: {
             "@": "/resources/js",
