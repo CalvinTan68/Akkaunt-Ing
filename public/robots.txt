@@ -1,2 +1,4 @@
 User-agent: *
-Disallow:
+Allow: /
+
+Sitemap: https://akkaunt-ing.rf.gd/sitemap.xml
