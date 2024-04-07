@@ -14,13 +14,13 @@ class CreateAccountingsTable extends Migration
     public function up()
     {
         Schema::create('accountings', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->date('Date');
             $table->string('Name');
             $table->bigInteger('Debit');
             $table->bigInteger('Credit');
             $table->string('Notes');
-            $table->bigInteger('User');
+            $table->char('User');
             $table->timestamps();
         });
     }
