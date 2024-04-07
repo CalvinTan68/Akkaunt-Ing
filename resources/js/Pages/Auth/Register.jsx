@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { Input, Form, Button, Typography, Card } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { Button, Card, Form, Input, Typography } from "antd";
+import { useEffect } from "react";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -148,7 +148,7 @@ export default function Register() {
                         >
                             REGISTER
                         </Button>
-                        <Link href={route("login")}>
+                        <Link replace href={route("login")}>
                             Already have an account?
                         </Link>
                     </Form.Item>

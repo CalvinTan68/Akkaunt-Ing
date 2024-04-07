@@ -18,14 +18,13 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Login', [
+    return Inertia::render('Public/Public', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
     ]);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/accounting', [AccountingController::class, 'index'])->name('accounting');
     Route::post('/new', [AccountingController::class, 'store'])->name('new.accounting');
@@ -34,9 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/download_data', [AccountingController::class, 'download_data'])->name('download_data');
 });
 
-
 Route::fallback(function () {
-    return redirect("/");
+    return redirect('/');
 });
 
 require __DIR__ . '/auth.php';

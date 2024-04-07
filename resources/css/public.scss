@@ -1,0 +1,15 @@
+.public-page {
+    .ant-layout-content {
+        section {
+            height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid 1px black;
+        }
+    }
+
+    .ant-layout-footer {
+        text-align: center;
+    }
+}

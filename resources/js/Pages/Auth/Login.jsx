@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { Input, Form, Button, Card, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { Button, Card, Form, Input, Typography } from "antd";
+import { useEffect } from "react";
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -93,7 +93,10 @@ export default function Login({ status }) {
                         >
                             LOG IN
                         </Button>
-                        Or <Link href={route("register")}>register now!</Link>
+                        Or{" "}
+                        <Link replace href={route("register")}>
+                            register now!
+                        </Link>
                     </Form.Item>
                 </Form>
                 {errors.email && (

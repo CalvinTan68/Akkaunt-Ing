@@ -1,63 +1,74 @@
+.public-page .ant-layout-content section {
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px black;
+}
+.public-page .ant-layout-footer {
+  text-align: center;
+}
+
 table,
 td,
 th,
 tr {
-    text-align: center;
+  text-align: center;
 }
 
 .debit {
-    color: #10b981;
+  color: #10b981;
 }
 
 .credit {
-    color: #ff5e52;
+  color: #ff5e52;
 }
 
 .calculatedvalue {
-    font-size: 25px;
-    font-weight: bold;
-    color: #818cf8;
-    text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #818cf8;
+  text-align: center;
 }
 
 .float-button {
-    float: left !important;
+  float: left !important;
 }
 
 .ant-carousel .slick-dots li button {
-    background: lightgrey !important;
+  background: lightgrey !important;
 }
 
 .ant-input-number-handler-wrap {
-    display: none !important;
+  display: none !important;
 }
 
 .table-index {
-    background-color: #d7d7d7 !important;
-    font-weight: bold;
+  background-color: #d7d7d7 !important;
+  font-weight: bold;
 }
 
 .ant-menu-item {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 .body-container {
-    padding: 0 30px;
+  padding: 0 30px;
 }
 
 @media screen and (max-width: 767px) {
-    .body-container {
-        padding: 0 10px;
-    }
-    .auth-component {
-        width: 100vw !important;
-    }
+  .body-container {
+    padding: 0 10px;
+  }
+  .auth-component {
+    width: 100vw !important;
+  }
 }
 .menu-item {
-    border: 0 !important;
-    background: transparent !important;
+  border: 0 !important;
+  background: transparent !important;
 }
 
 .ant-dropdown-menu-item {
-    padding: 0 !important;
+  padding: 0 !important;
 }
