@@ -234,4 +234,6 @@ return [
 
     ],
 
+    'desc' => env('APP_DESC', ''),
+
 ];
